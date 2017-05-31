@@ -15,14 +15,17 @@ class Checkers
   {
     setupBoard();
     printBoard();
-    while (true == true)
+    while (!(true == false))
     {
+      System.out.println("Player " + playerNum + "'s turn");
       moveInput = In.getString();
       getPositions(moveInput);
       movePiece();
       printBoard();
     }
   }
+  
+  
   
   public static void setupBoard() // method to place the game pieces at the start of the game
   {
@@ -106,7 +109,7 @@ class Checkers
   }
   
   
-  public static void printBoard()
+  public static void printBoard() // prints the board with pieces placed
   {
     System.out.print("   ");
     for (int c = 0; c < 8; c++)
@@ -130,7 +133,7 @@ class Checkers
     
   }
   
-  public static void movePiece()
+  public static void movePiece() // method that changes the positions of the pieces
   {
     if (playerNum == 1)
     {
@@ -138,6 +141,7 @@ class Checkers
       {
         spaces[startLetter][startNumber] = ' ';
         spaces[endLetter][endNumber] = '0';
+        playerNum = 2;
       }
     }
     else
@@ -146,13 +150,14 @@ class Checkers
       {
         spaces[startLetter][startNumber] = ' ';
         spaces[endLetter][endNumber] = 'o';
+        playerNum = 1;
       }
     }
     
   }
   
   
-  public static void getPositions(String i)
+  public static void getPositions(String i) // method that finds the start/end position they picked
   {
     
     String[] inputSplit = i.split("\\s+");
