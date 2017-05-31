@@ -1,90 +1,104 @@
 class Checkers
 {
   public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
-  public static String rowLegend = "12345678"; // row number definitions
-  public static String columnLegend = "abcdefgh"; // column letter definitions
+  public static String rowLegend = "abcdefgh"; // row number definitions
+  public static String columnLegend = "12345678"; // column letter definitions
+  public static String moveInput = "";
+  public static int playerNum = 1; 
+  public static int startLetter;
+  public static int startNumber;
+  public static int endLetter;
+  public static int endNumber;
+  
   
   public static void main(String[] args)
   {
     setupBoard();
     printBoard();
+    while (true == true)
+    {
+      moveInput = In.getString();
+      getPositions(moveInput);
+      movePiece();
+      printBoard();
+    }
   }
   
   public static void setupBoard() // method to place the game pieces at the start of the game
   {
-    for (int i = 0; i < 8; i++) // for loop for rows
+    for (int r = 0; r < 8; r++) // for loop for rows
     {
       for (int c = 0; c < 8; c++) // for loop for columns 
       {
-        if (i == 0) // placing the pieces based on first row
+        if (r == 0) // placing the pieces based on first row
         {
           if ((c % 2) == 1)
           {
-            spaces[i][c] = '0';
+            spaces[r][c] = '0';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
-        else if (i == 1) // placing the pieces based on second row
+        else if (r == 1) // placing the pieces based on second row
         {
           if ((c % 2) == 0)
           {
-            spaces[i][c] = '0';
+            spaces[r][c] = '0';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
-        else if (i == 2) // placing the pieces based on third row
+        else if (r == 2) // placing the pieces based on third row
         {
           if ((c % 2) == 1)
           {
-            spaces[i][c] = '0';
+            spaces[r][c] = '0';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
-        else if (i == 5) // placing the pieces based on sixth row
+        else if (r == 5) // placing the pieces based on sixth row
         {
           if ((c % 2) == 0)
           {
-            spaces[i][c] = 'o';
+            spaces[r][c] = 'o';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
-        else if (i == 6) // placing the pieces based on seventh row
+        else if (r == 6) // placing the pieces based on seventh row
         {
           if ((c % 2) == 1)
           {
-            spaces[i][c] = 'o';
+            spaces[r][c] = 'o';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
-        else if (i == 7) // placing the pieces based on eighth row
+        else if (r == 7) // placing the pieces based on eighth row
         {
           if ((c % 2) == 0)
           {
-            spaces[i][c] = 'o';
+            spaces[r][c] = 'o';
           }
           else
           {
-            spaces[i][c] = ' ';
+            spaces[r][c] = ' ';
           }
         }
         else
         {
-          spaces[i][c] = ' ';
+          spaces[r][c] = ' ';
         }
         
       }
@@ -95,25 +109,60 @@ class Checkers
   public static void printBoard()
   {
     System.out.print("   ");
-    for (int b = 0; b < 8; b++)
+    for (int c = 0; c < 8; c++)
     {
-      System.out.print(columnLegend.charAt(b) + "  ");
+      System.out.print(columnLegend.charAt(c) + "  ");
     }
     
     System.out.println("");
     
-    for (int i = 0; i < 8; i++)
+    for (int r = 0; r < 8; r++)
     {
-      System.out.print(rowLegend.charAt(i) + " ");
+      System.out.print(rowLegend.charAt(r) + " ");
       
       for (int c = 0; c < 8; c++)
       {
-        System.out.print("[" + spaces[i][c] + "]");
+        System.out.print("[" + spaces[r][c] + "]");
       }
       
       System.out.println("");
     }
     
   }
-
+  
+  public static void movePiece()
+  {
+    if (playerNum == 1)
+    {
+      if (spaces[startLetter][startNumber] == '0')
+      {
+        spaces[startLetter][startNumber] = ' ';
+        spaces[endLetter][endNumber] = '0';
+      }
+    }
+    else
+    {
+      if (spaces[startLetter][startNumber] == 'o')
+      {
+        spaces[startLetter][startNumber] = ' ';
+        spaces[endLetter][endNumber] = 'o';
+      }
+    }
+    
+  }
+  
+  
+  public static void getPositions(String i)
+  {
+    
+    String[] inputSplit = i.split("\\s+");
+    startLetter = rowLegend.indexOf(inputSplit[0].charAt(0));
+    startNumber = columnLegend.indexOf(inputSplit[0].charAt(1));
+    endLetter = rowLegend.indexOf(inputSplit[1].charAt(0));
+    endNumber = columnLegend.indexOf(inputSplit[1].charAt(1));
+    
+  }
+  
+  
+  
 }
