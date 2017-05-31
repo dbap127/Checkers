@@ -136,9 +136,15 @@ class Checkers
   public static void movePiece() // method that changes the positions of the pieces
   {
     if (playerNum == 1)
-    {
+    {   
       if (spaces[startLetter][startNumber] == '0')
       {
+        // check what row (0, 7 or 2 - 6)
+        // if 0
+        
+        
+        
+        
         spaces[startLetter][startNumber] = ' ';
         spaces[endLetter][endNumber] = '0';
         playerNum = 2;
