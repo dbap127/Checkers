@@ -179,6 +179,10 @@ class Checkers
         
         
       }
+      else if (spaces[startLetter][startNumber] == 'k')
+      {
+        
+      }
       
     }
     else
@@ -226,8 +230,14 @@ class Checkers
         }
         
       }
+      else if (spaces[startLetter][startNumber] == 'K')
+      {
+        
+      }
       
     }
+    
+    
     
     if (validMove == true)
     {
@@ -248,10 +258,10 @@ class Checkers
       startNumber = columnLegend.indexOf(i.charAt(1));
       endLetter = rowLegend.indexOf(i.charAt(2));
       endNumber = columnLegend.indexOf(i.charAt(3));
-      System.out.println(startLetter);
-      System.out.println(startNumber);
-      System.out.println(endLetter);
-      System.out.println(endNumber);
+      // System.out.println(startLetter);
+      // System.out.println(startNumber);
+      // System.out.println(endLetter);
+      // System.out.println(endNumber);
       movePiece();
     }
     catch (Exception e)
@@ -261,6 +271,25 @@ class Checkers
     
   }
   
+  public static void checkMovement()
+  {
+    
+  }
+  
+  public static void checkHop()
+  {
+    
+  }
+  
+  public static void checkKing()
+  {
+    
+  }
+  
+  public static void checkWinner()
+  {
+    
+  }
   
   
 }
