@@ -6,7 +6,7 @@
 * Method that sets up the board/where pieces are at the start of the game (completed)
 * Method that prints the board (completed)
 
-* Make movePiece method an individual method
+* Make movePiece method an individual method (completed)
 * Method that error checks (semi-completed)
 
 * Method that handles what move is chosen, what places are valid (semi-completed)
