@@ -16,3 +16,5 @@
 * choose between 1v1 or ai (not started)
 * ai (not started)
 
+#### Diagram that makes sense to me but no one else
+![some weird diagram don't worry about it](http://i.imgur.com/PAigLh2.png)
