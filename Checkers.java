@@ -10,6 +10,7 @@ class Checkers
   public static int endLetter;
   public static int endNumber;
   public static boolean validMove = false;
+  public static int[] pieceCount = new int[2];
   
   public static void main(String[] args)
   {
@@ -21,11 +22,10 @@ class Checkers
       moveInput = In.getString();
       moveInput = moveInput.replaceAll("\\s+","");
       getPositions(moveInput);
+      checkKing();
       printBoard();
     }
   }
-  
-  
   
   public static void setupBoard() // method to place the game pieces at the start of the game
   {
@@ -135,110 +135,65 @@ class Checkers
   
   public static void movePiece() // method that changes the positions of the pieces
   {
+      spaces[endLetter][endNumber] = spaces[startLetter][startNumber];
+      spaces[startLetter][startNumber] = ' ';
+  }
+  
+  public static void getPositions(String i) // method that finds the start/end position they picked
+  {
+    try
+    {
+      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0)
+      {
+        while (i.length() > 3)
+        {
+          startLetter = rowLegend.indexOf(i.charAt(0));
+          startNumber = columnLegend.indexOf(i.charAt(1));
+          endLetter = rowLegend.indexOf(i.charAt(2));
+          endNumber = columnLegend.indexOf(i.charAt(3));
+          System.out.println(startLetter);
+          System.out.println(startNumber);
+          System.out.println(endLetter);
+          System.out.println(endNumber);
+          checkMovement();
+          i = i.substring(2); 
+        }
+      }
+      else
+      {
+        System.out.println("Invalid Move");
+      }
+    }
+    catch (Exception e)
+    {
+      System.out.println("Invalid Move");
+    }
+  }
+  
+  public static void checkMovement()
+  {
     if (playerNum == 1)
     {   
       if (spaces[startLetter][startNumber] == 'o')
       {
-        if (startNumber == 0) // detecting if the piece selected is on the "1" column
-        {
-          if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = 'o';
-            validMove = true;
-            playerNum = 2;
-          }
-        }  
-        else if (startNumber == 7) // detecting if the piece selected is on the "8" column
-        {
-          if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = 'o';
-            validMove = true;
-            playerNum = 2;
-          }
-        }  
-        else // detecting if the piece is between 2 - 7
-        {
-          if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = 'o';
-            validMove = true;
-            playerNum = 2;
-          }
-          else if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = 'o';
-            validMove = true;
-            playerNum = 2;
-          }
-        }
-        
-        
+        checkNormalOne();
       }
       else if (spaces[startLetter][startNumber] == 'k')
       {
-        
+        checkKingOne();
       }
-      
     }
     else
     {
       if (spaces[startLetter][startNumber] == '0')
       {
-        // check what row (0, 7 or 2 - 6)
-        // if 0
-        if (startNumber == 0) // detecting if piece is on the "1" column
-        {
-          if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = '0';
-            validMove = true;
-            playerNum = 1;
-          }
-        }  
-        else if (startNumber == 7) // detecting if the piece selected is on the "8" column
-        {
-          if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = '0';
-            validMove = true;
-            playerNum = 1;
-          }
-        }
-        else // detecting if the piece is between 2 - 7
-        {
-          if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = '0';
-            validMove = true;
-            playerNum = 1;
-          }
-          else if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
-          {
-            spaces[startLetter][startNumber] = ' ';
-            spaces[endLetter][endNumber] = '0';
-            validMove = true;
-            playerNum = 1;
-          }
-        }
-        
+        checkNormalTwo();
       }
       else if (spaces[startLetter][startNumber] == 'K')
       {
-        
+        checkKingTwo();
       }
-      
     }
-    
-    
-    
     if (validMove == true)
     {
       validMove = false;
@@ -249,47 +204,150 @@ class Checkers
     }
   }
   
-  
-  public static void getPositions(String i) // method that finds the start/end position they picked
+  public static void checkNormalOne() // checking player one's regular piece
   {
-    try
+    if (startNumber == 0) // detecting if the piece selected is on the "1" column
     {
-      startLetter = rowLegend.indexOf(i.charAt(0));
-      startNumber = columnLegend.indexOf(i.charAt(1));
-      endLetter = rowLegend.indexOf(i.charAt(2));
-      endNumber = columnLegend.indexOf(i.charAt(3));
-      // System.out.println(startLetter);
-      // System.out.println(startNumber);
-      // System.out.println(endLetter);
-      // System.out.println(endNumber);
-      movePiece();
-    }
-    catch (Exception e)
+      if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 2;
+      }
+    }  
+    else if (startNumber == 7) // detecting if the piece selected is on the "8" column
     {
-      System.out.println("Invalid Move");
+      if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 2;
+      }
+    }  
+    else // detecting if the piece is between 2 - 7
+    {
+      if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 2;
+      }
+      else if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 2;
+      }
+    }
+  }
+  
+  public static void checkNormalTwo() // checking player two's regular piece
+  {
+    if (startNumber == 0) // detecting if piece is on the "1" column
+    {
+      if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 1;
+      }
+    }  
+    
+    
+    else if (startNumber == 7) // detecting if the piece selected is on the "8" column
+    {
+      if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 1;
+      }
+    }
+    else // detecting if the piece is between 2 - 7
+    {
+      if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 1;
+      }
+      else if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+      {
+        validMove = true;
+        movePiece();
+        playerNum = 1;
+      }
+    }
+  }
+  
+  public static void checkKingOne() // checking player one's king piece
+  {
+  
+  }
+  
+  public static void checkKingTwo() // checking player two's regular piece
+  {
+  
+  }
+ 
+  public static void checkBunnyHop()
+  {
+    
+  }
+  
+  
+  
+  public static void checkKing() // checks if player's pieces reached the end, then turns them into king pieces
+  {
+    for (int c = 0; c < 8; c++)
+    {
+      if (spaces[0][c] == 'o')
+      {
+        spaces[0][c] = 'k';
+      }
     }
     
+    for (int c = 0; c < 8; c++)
+    {
+      if (spaces[7][c] == '0')
+      {
+        spaces[7][c] = 'K';
+      }
+    }
   }
   
-  public static void checkMovement()
+  public static void checkIfWinner()
   {
-    
+    for (int r = 0; r < 8; r++) // for loop for rows
+    {
+      for (int c = 0; c < 8; c++) // for loop for columns 
+      {
+        if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+        {
+          ++pieceCount[0];
+        }
+        else if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+        {
+          ++pieceCount[1];
+        }
+        else
+        {
+          // carry on : ^ )
+        }
+      }
+    }
+    if (pieceCount[0] == 0)
+    {
+      // player 2 wins ! :D
+    }
+    else if (pieceCount[1] == 0)
+    {
+      // player 1 wins ! :D
+    }
+    else
+    {
+      // carry on : ^ ) 
+    }
   }
-  
-  public static void checkHop()
-  {
-    
-  }
-  
-  public static void checkKing()
-  {
-    
-  }
-  
-  public static void checkWinner()
-  {
-    
-  }
-  
   
 }
