@@ -2,6 +2,7 @@
 
 ### Brainstorm/Plans
 
+* Method that prints the rules of the game (not done, pretty simple) 
 * Method that sets up the board/where pieces are at the start of the game (completed)
 * Method that prints the board (completed)
 
