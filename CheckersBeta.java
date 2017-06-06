@@ -1,4 +1,4 @@
-class Checkers2
+class Checkers
 {
   public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
   public static String rowLegend = "abcdefgh"; // row number definitions
@@ -11,6 +11,7 @@ class Checkers2
   public static int endNumber;
   public static boolean validMove = false;
   public static int[] pieceCount = new int[2];
+  public static String moveSeq = ""; 
   
   public static void main(String[] args)
   {
@@ -175,6 +176,33 @@ class Checkers2
     catch (Exception e)
     {
       System.out.println("Invalid Move");
+    }
+  }
+  
+  public static void sequenceCheck()
+  {
+    try
+    {
+      moveSeq = "";
+      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0)
+      {
+        while (i.length() > 3)
+        {
+          if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ')
+          {
+            moveSeq = moveSeq.concat("1");
+          }
+          else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+          {
+            moveSeq = moveSeq.concat("2");
+          }
+          i = i.substring(2);
+        }
+      }
+    }
+    catch (Exception e)
+    {
+      System.out.println("Invalid Move Sequence");
     }
   }
   
