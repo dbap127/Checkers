@@ -1,7 +1,7 @@
 /**
  * Created by Moocow on 6/6/2017.
  */
-class Checkers
+class Checkers2
 {
     public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
     public static String rowLegend = "abcdefgh"; // row number definitions
@@ -19,6 +19,7 @@ class Checkers
 
     public static void main(String[] args)
     {
+        rules();
         setupBoard();
         printBoard();
         while (!(true == false))
@@ -27,11 +28,35 @@ class Checkers
             moveInput = In.getString();
             moveInput = moveInput.replaceAll("\\s+","");
             sequenceCheck(moveInput);
+            checkValidMove();
             checkKing();
             printBoard();
         }
     }
-
+    
+    public static void howToMove()
+    {
+      System.out.println("In this version, you have to first type in the location of the");
+      System.out.println("piece you want to move (ex: f1), then input the place of where");
+      System.out.println("you want to go (ex: e2) so the full input would be \"f1e2\".");
+      System.out.println("To hop, you have to input the place of where you want to hop");
+      System.out.println("To multi-hop you have to input more end places.");
+    }
+    
+    public static void rules()
+    {
+      System.out.println("Welcome to Checkers");
+      System.out.println("This is how to play:");
+      System.out.println("Each player begins the game with 12 pieces, or checkers,");
+      System.out.println("placed in the three rows closest to him or her. The object");
+      System.out.println("of the game is to capture all of your opponent's checkers");
+      System.out.println("or position your pieces so that your opponent has no available moves.");
+      System.out.println("Basic movement is to move a checker one space diagonally forward.");
+      System.out.println("To capture an opponent piece, you have to diagonally hop over it.");
+      System.out.println("In this version, you are allowed to choose if you want to hop over");
+      System.out.println("and you are also allowed to choose how many pieces you want to hop over.");
+    }
+    
     public static void setupBoard() // method to place the game pieces at the start of the game
     {
         for (int r = 0; r < 8; r++) // for loop for rows
@@ -144,6 +169,26 @@ class Checkers
         spaces[startLetter][startNumber] = ' ';
     }
 
+    public static void checkValidMove()
+    {
+      if (validMove == true)
+      {
+        validMove = false;
+        if (playerNum == 1)
+        {
+          playerNum = 2;
+        }
+        else
+        {
+          playerNum = 1;
+        }
+      }
+      else
+      {
+        System.out.println("Invalid Move");
+      }
+    }
+    
     public static void getPositions(String i) // method that finds the start/end position they picked
     {
         try
@@ -163,22 +208,6 @@ class Checkers
             else
             {
                 System.out.println("Invalid Move Sequence");
-            }
-            if (validMove == true)
-            {
-                validMove = false;
-                if (playerNum == 1)
-                {
-                    playerNum = 2;
-                }
-                else
-                {
-                    playerNum = 1;
-                }
-            }
-            else
-            {
-                System.out.println("Invalid Move");
             }
         }
         catch (Exception e)
