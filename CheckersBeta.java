@@ -116,23 +116,37 @@ class Checkers
 
     public static void printBoard() // prints the board with pieces placed
     {
-        System.out.print("   ");
+        System.out.print("       ");
         for (int c = 0; c < 8; c++)
         {
-            System.out.print(columnLegend.charAt(c) + "  ");
+            System.out.print(columnLegend.charAt(c) + "           ");
         }
 
         System.out.println("");
 
         for (int r = 0; r < 8; r++)
         {
-            System.out.print(rowLegend.charAt(r) + " ");
-
+            // System.out.print(rowLegend.charAt(r) + " ");
             for (int c = 0; c < 8; c++)
             {
-                System.out.print("[" + spaces[r][c] + "]");
+              System.out.print("    _______ ");
             }
-
+            System.out.println("");
+            for (int c = 0; c < 8; c++)
+            {
+                System.out.print("   |       |");
+            }
+            System.out.println("");
+            System.out.print(rowLegend.charAt(r));
+            for (int c = 0; c < 8; c++)
+            {
+                System.out.print("  |   " + spaces[r][c] + "   | ");
+            }
+            System.out.println("");
+            for (int c = 0; c < 8; c++)
+            {
+                System.out.print("   |_______|");
+            }
             System.out.println("");
         }
 
@@ -450,5 +464,4 @@ class Checkers
 
         }
     }
-
 }
