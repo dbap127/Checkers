@@ -16,22 +16,66 @@ class Checkers2
     public static int[] pieceCount = new int[2];
     public static String moveSeq = "";
     public static String origI;
-
+    public static boolean gameEnd = true;
+    public static int menuChoice;
+    
     public static void main(String[] args)
     {
-        rules();
-        setupBoard();
-        printBoard();
-        while (!(true == false))
+      while (!(true == false))
+      {
+        menuChoices();
+        try
         {
-            System.out.println("Player " + playerNum + "'s turn");
-            moveInput = In.getString();
-            moveInput = moveInput.replaceAll("\\s+","");
-            sequenceCheck(moveInput);
-            checkValidMove();
-            checkKing();
-            printBoard();
+          System.out.print("Input choice: ");
+          menuChoice = In.getInt();
+          if (menuChoice == 1)
+          {
+            gameEnd = false; 
+            while (gameEnd == false)
+            { 
+              setupBoard();
+              printBoard();
+              System.out.println("Player " + playerNum + "'s turn");
+              moveInput = In.getString();
+              moveInput = moveInput.replaceAll("\\s+","");
+              sequenceCheck(moveInput);
+              checkValidMove();
+              checkKing();
+              printBoard();
+            }
+          }
+          else if (menuChoice == 2)
+          {
+            System.out.println("Sorry, Currently in Development.\n");
+          }
+          else if (menuChoice == 3)
+          {
+            rules();
+          }
+          else if (menuChoice == 4)
+          {
+            howToMove();
+          }
+          else
+          {
+            System.out.println("Invalid Input\n");
+            
+          }
         }
+        catch (Exception e)
+        {
+          System.out.println("Invalid Input\n");
+        }
+      }
+    }
+    
+    public static void menuChoices()
+    {
+      System.out.println("Welcome to Checkers.");
+      System.out.println("Press 1 for Player vs Player");
+      System.out.println("Press 2 for Player vs AI");
+      System.out.println("Press 3 for Checkers Rules (Highly Recommended)");
+      System.out.println("Press 4 for Learning How To Move (Highly Recommended)");
     }
     
     public static void howToMove()
@@ -39,8 +83,9 @@ class Checkers2
       System.out.println("In this version, you have to first type in the location of the");
       System.out.println("piece you want to move (ex: f1), then input the place of where");
       System.out.println("you want to go (ex: e2) so the full input would be \"f1e2\".");
-      System.out.println("To hop, you have to input the place of where you want to hop");
-      System.out.println("To multi-hop you have to input more end places.");
+      System.out.println("To hop, you have to input the place of where you want to hop after.");
+      System.out.println("To multi-hop you have to input each location of where you hop in order.");
+      System.out.println("For example \"f1e2\" \n\n");
     }
     
     public static void rules()
@@ -54,7 +99,7 @@ class Checkers2
       System.out.println("Basic movement is to move a checker one space diagonally forward.");
       System.out.println("To capture an opponent piece, you have to diagonally hop over it.");
       System.out.println("In this version, you are allowed to choose if you want to hop over");
-      System.out.println("and you are also allowed to choose how many pieces you want to hop over.");
+      System.out.println("and you are also allowed to choose how many pieces you want to hop over.\n\n");
     }
     
     public static void setupBoard() // method to place the game pieces at the start of the game
@@ -133,7 +178,6 @@ class Checkers2
                 {
                     spaces[r][c] = ' ';
                 }
-
             }
         }
     }
@@ -160,7 +204,6 @@ class Checkers2
 
             System.out.println("");
         }
-
     }
 
     public static void movePiece() // method that changes the positions of the pieces
@@ -280,8 +323,6 @@ class Checkers2
                 checkKingTwo();
             }
         }
-
-
     }
 
     public static void checkNormalOne() // checking player one's regular piece
@@ -479,5 +520,4 @@ class Checkers2
 
         }
     }
-
 }
