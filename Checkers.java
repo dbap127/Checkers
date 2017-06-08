@@ -18,6 +18,7 @@ class Checkers2
     public static String origI;
     public static boolean gameEnd = true;
     public static int menuChoice;
+    public static boolean aiEnable = false;
     
     public static void main(String[] args)
     {
@@ -27,14 +28,15 @@ class Checkers2
         try
         {
           System.out.print("Input choice: ");
-          menuChoice = In.getInt();
+          menuChoice = Integer.parseInt(In.getString());
           if (menuChoice == 1)
           {
-            gameEnd = false; 
+            aiEnable = false;
+            gameEnd = false;
+            setupBoard();
+            printBoard();
             while (gameEnd == false)
             { 
-              setupBoard();
-              printBoard();
               System.out.println("Player " + playerNum + "'s turn");
               moveInput = In.getString();
               moveInput = moveInput.replaceAll("\\s+","");
@@ -47,6 +49,7 @@ class Checkers2
           else if (menuChoice == 2)
           {
             System.out.println("Sorry, Currently in Development.\n");
+            aiEnable = true;
           }
           else if (menuChoice == 3)
           {
@@ -229,6 +232,17 @@ class Checkers2
       else
       {
         System.out.println("Invalid Move");
+      }
+    }
+    
+    public static void aiBoardRead()
+    {
+      for (int r = 0; r < 8; r++) // for loop for rows
+      {
+        for (int c = 0; c < 8; c++) // for loop for columns
+        {
+          
+        }
       }
     }
     
@@ -509,11 +523,20 @@ class Checkers2
 
         if (pieceCount[0] == 0)
         {
-            // player 2 wins ! :D
+          // player 2 wins ! :D
+          if (aiEnable == true)
+          {
+            System.out.println("The AI Wins!");
+          }
+          else
+          {
+            System.out.println("Player 2 Wins!\n");
+          }
         }
         else if (pieceCount[1] == 0)
         {
-            // player 1 wins ! :D
+          // player 1 wins ! :D
+          System.out.println("Player 1 Wins!");
         }
         else
         {
