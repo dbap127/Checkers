@@ -1,7 +1,7 @@
 /**
  * Created by Moocow on 6/6/2017.
  */
-class Checkers2
+class Checkers
 {
     public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
     public static String rowLegend = "abcdefgh"; // row number definitions
@@ -50,6 +50,23 @@ class Checkers2
           {
             System.out.println("Sorry, Currently in Development.\n");
             aiEnable = true;
+            gameEnd = false;
+            setupBoard();
+            printBoard();
+            while (gameEnd == false)
+            { 
+              System.out.println("Your " + playerNum + "'s turn");
+              moveInput = In.getString();
+              moveInput = moveInput.replaceAll("\\s+","");
+              sequenceCheck(moveInput);
+              checkValidMove();
+              checkKing();
+              printBoard();
+              if (playerNum == 2)
+              {
+                checkersAi();
+              }
+            }
           }
           else if (menuChoice == 3)
           {
@@ -235,13 +252,21 @@ class Checkers2
       }
     }
     
-    public static void aiBoardRead()
+    public static void checkersAi()
     {
+      String pieceLocationString = "";
+      String pieceTypes = "";
+      
       for (int r = 0; r < 8; r++) // for loop for rows
       {
         for (int c = 0; c < 8; c++) // for loop for columns
         {
-          
+          if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+          {
+            pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r)));
+            pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c)));
+            pieceLocationString = pieceLocationString.concat(" ");
+          }
         }
       }
     }
@@ -526,16 +551,19 @@ class Checkers2
           // player 2 wins ! :D
           if (aiEnable == true)
           {
+            gameEnd = true;
             System.out.println("The AI Wins!");
           }
           else
           {
+            gameEnd = true;
             System.out.println("Player 2 Wins!\n");
           }
         }
         else if (pieceCount[1] == 0)
         {
           // player 1 wins ! :D
+          gameEnd = true;
           System.out.println("Player 1 Wins!");
         }
         else
