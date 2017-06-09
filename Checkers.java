@@ -255,7 +255,8 @@ class Checkers
     public static void checkersAi()
     {
       String pieceLocationString = "";
-      String pieceTypes = "";
+      String pieceTypesString = "";
+      String possibleMoves = ""; 
       
       for (int r = 0; r < 8; r++) // for loop for rows
       {
@@ -266,9 +267,36 @@ class Checkers
             pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r)));
             pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c)));
             pieceLocationString = pieceLocationString.concat(" ");
+            
+            pieceTypesString = pieceTypesString.concat(Character.toString(spaces[r][c]));
+            pieceTypesString = pieceTypesString.concat(" ");
           }
         }
       }
+      
+      pieceLocationString = pieceLocationString.trim();
+      pieceTypesString = pieceTypesString.trim();
+      
+      String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
+      String[] pieceTypesArray = pieceTypesString.split("\\s+"); 
+      
+      for (int i = 0; i < pieceLocationArray.length; i++)
+      {
+        startLetter = rowLegend.indexOf(pieceLocationArray[i].charAt(0));
+        startNumber = columnLegend.indexOf(pieceLocationArray[i].charAt(1));
+        
+        if (pieceTypesArray[i].equals("0"))
+        {
+          
+        }
+        else if (pieceTypesArray[i].equals("K"))
+        {
+          
+        }
+        
+        
+      }
+      
     }
     
     public static void getPositions(String i) // method that finds the start/end position they picked
