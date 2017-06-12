@@ -1,6 +1,8 @@
 /**
  * Created by Moocow on 6/6/2017.
  */
+import java.util.Random;
+
 class Checkers
 {
     public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
@@ -16,22 +18,118 @@ class Checkers
     public static int[] pieceCount = new int[2];
     public static String moveSeq = "";
     public static String origI;
-
+    public static boolean gameEnd = true;
+    public static int menuChoice;
+    public static boolean aiEnable = false;
+    public static String pieceLocationString = "";
+    public static String pieceTypesString = "";
+    public static String possibleMoves = ""; 
+    public static String possibleHMoves = ""; 
+    public static String aiChoice = "";
+    public static boolean hopMoveFound = false;
+    
     public static void main(String[] args)
     {
-        setupBoard();
-        printBoard();
-        while (!(true == false))
+      while (!(true == false))
+      {
+        menuChoices();
+        try
         {
-            System.out.println("Player " + playerNum + "'s turn");
-            moveInput = In.getString();
-            moveInput = moveInput.replaceAll("\\s+","");
-            sequenceCheck(moveInput);
-            checkKing();
+          System.out.print("Input choice: ");
+          menuChoice = Integer.parseInt(In.getString());
+          if (menuChoice == 1)
+          {
+            aiEnable = false;
+            gameEnd = false;
+            setupBoard();
             printBoard();
+            while (gameEnd == false)
+            { 
+              System.out.println("Player " + playerNum + "'s turn");
+              moveInput = In.getString();
+              moveInput = moveInput.replaceAll("\\s+","");
+              sequenceCheck(moveInput);
+              checkValidMove();
+              checkKing();
+              printBoard();
+            }
+          }
+          else if (menuChoice == 2)
+          {
+            System.out.println("Sorry, Currently in Development.\n");
+            aiEnable = true;
+            gameEnd = false;
+            setupBoard();
+            printBoard();
+            while (gameEnd == false)
+            { 
+              System.out.println("Your turn");
+              moveInput = In.getString();
+              moveInput = moveInput.replaceAll("\\s+","");
+              sequenceCheck(moveInput);
+              checkValidMove();
+              checkKing();
+              printBoard();
+              if (playerNum == 2)
+              {
+                checkersAi();
+              }
+            }
+          }
+          else if (menuChoice == 3)
+          {
+            rules();
+          }
+          else if (menuChoice == 4)
+          {
+            howToMove();
+          }
+          else
+          {
+            System.out.println("Invalid Input\n");
+            
+          }
         }
+        catch (Exception e)
+        {
+          System.out.println("Invalid Input\n");
+        }
+      }
     }
-
+    
+    public static void menuChoices()
+    {
+      System.out.println("Welcome to Checkers.");
+      System.out.println("Press 1 for Player vs Player");
+      System.out.println("Press 2 for Player vs AI");
+      System.out.println("Press 3 for Checkers Rules (Highly Recommended)");
+      System.out.println("Press 4 for Learning How To Move (Highly Recommended)");
+    }
+    
+    public static void howToMove()
+    {
+      System.out.println("In this version, you have to first type in the location of the");
+      System.out.println("piece you want to move (ex: f1), then input the place of where");
+      System.out.println("you want to go (ex: e2) so the full input would be \"f1e2\".");
+      System.out.println("To hop, you have to input the place of where you want to hop after.");
+      System.out.println("To multi-hop you have to input each location of where you hop in order.");
+      System.out.println("For example \"f1e2\" \n\n");
+    }
+    
+    public static void rules()
+    {
+      System.out.println("Welcome to Checkers");
+      System.out.println("This is how to play:");
+      System.out.println("Each player begins the game with 12 pieces, or checkers,");
+      System.out.println("placed in the three rows closest to him or her. The object");
+      System.out.println("of the game is to capture all of your opponent's checkers");
+      System.out.println("or position your pieces so that your opponent has no available moves.");
+      System.out.println("Basic movement is to move a checker one space diagonally forward.");
+      System.out.println("To capture an opponent piece, you have to diagonally hop over it.");
+      System.out.println("In this version, you are allowed to choose if you want to hop over");
+      System.out.println("and you are also allowed to choose how many pieces you want to hop over.\n\n");
+    }
+    
     public static void setupBoard() // method to place the game pieces at the start of the game
     {
         for (int r = 0; r < 8; r++) // for loop for rows
@@ -108,7 +206,6 @@ class Checkers
                 {
                     spaces[r][c] = ' ';
                 }
-
             }
         }
     }
@@ -116,40 +213,25 @@ class Checkers
 
     public static void printBoard() // prints the board with pieces placed
     {
-        System.out.print("       ");
+        System.out.print("   ");
         for (int c = 0; c < 8; c++)
         {
-            System.out.print(columnLegend.charAt(c) + "           ");
+            System.out.print(columnLegend.charAt(c) + "  ");
         }
 
         System.out.println("");
 
         for (int r = 0; r < 8; r++)
         {
-            // System.out.print(rowLegend.charAt(r) + " ");
+            System.out.print(rowLegend.charAt(r) + " ");
+
             for (int c = 0; c < 8; c++)
             {
-              System.out.print("    _______ ");
+                System.out.print("[" + spaces[r][c] + "]");
             }
-            System.out.println("");
-            for (int c = 0; c < 8; c++)
-            {
-                System.out.print("   |       |");
-            }
-            System.out.println("");
-            System.out.print(rowLegend.charAt(r));
-            for (int c = 0; c < 8; c++)
-            {
-                System.out.print("  |   " + spaces[r][c] + "   | ");
-            }
-            System.out.println("");
-            for (int c = 0; c < 8; c++)
-            {
-                System.out.print("   |_______|");
-            }
+
             System.out.println("");
         }
-
     }
 
     public static void movePiece() // method that changes the positions of the pieces
@@ -158,6 +240,348 @@ class Checkers
         spaces[startLetter][startNumber] = ' ';
     }
 
+    public static void checkValidMove()
+    {
+      if (validMove == true)
+      {
+        validMove = false;
+        if (playerNum == 1)
+        {
+          playerNum = 2;
+        }
+        else
+        {
+          playerNum = 1;
+        }
+      }
+      else
+      {
+        System.out.println("Invalid Move");
+      }
+    }
+    
+    public static void validMovePlaces()
+    {
+      pieceLocationString = "";
+      pieceTypesString = "";
+      possibleMoves = ""; 
+      
+      for (int r = 0; r < 8; r++) // for loop for rows
+      {
+        for (int c = 0; c < 8; c++) // for loop for columns
+        {
+          if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+          {
+            pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r)));
+            pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c)));
+            pieceLocationString = pieceLocationString.concat(" ");
+            
+            pieceTypesString = pieceTypesString.concat(Character.toString(spaces[r][c]));
+            pieceTypesString = pieceTypesString.concat(" ");
+          }
+        }
+      }
+      
+      pieceLocationString = pieceLocationString.trim();
+      pieceTypesString = pieceTypesString.trim();
+      
+      String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
+      String[] pieceTypesArray = pieceTypesString.split("\\s+"); 
+      
+      for (int i = 0; i < pieceLocationArray.length; i++)
+      {
+        startLetter = rowLegend.indexOf(pieceLocationArray[i].substring(0,1));
+        startNumber = columnLegend.indexOf(pieceLocationArray[i].substring(1,2));
+        
+        if (pieceTypesArray[i].equals("0"))
+        {
+          try
+          {
+            if (spaces[startLetter + 1][startNumber + 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter + 1][startNumber - 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+        }
+        
+        else if (pieceTypesArray[i].equals("K"))
+        {
+          try
+          {
+            if (spaces[startLetter + 1][startNumber + 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter + 1][startNumber - 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter - 1][startNumber - 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter - 1][startNumber + 1] == ' ')
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+        }
+      }
+      
+      possibleMoves = possibleMoves.trim();
+      String[] possibleMovesArray = possibleMoves.split("\\s+");
+      
+      
+      /* for (int i = 0; i < possibleMovesArray.length; i++) for debugging
+      {
+        System.out.println(possibleMovesArray[i]);
+      }
+      */
+      
+      
+      Random randGen = new Random();
+      
+      aiChoice = possibleMovesArray[randGen.nextInt(possibleMovesArray.length - 1)];
+      
+      aiGetPositions(aiChoice);
+      checkValidMove();
+      checkKing();
+      printBoard();
+    }
+    
+    public static void checkValidHops()
+    {
+      pieceLocationString = "";
+      pieceTypesString = "";
+      possibleHMoves = ""; 
+      
+      for (int r = 0; r < 8; r++) // for loop for rows
+      {
+        for (int c = 0; c < 8; c++) // for loop for columns
+        {
+          if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+          {
+            pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r)));
+            pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c)));
+            pieceLocationString = pieceLocationString.concat(" ");
+            
+            pieceTypesString = pieceTypesString.concat(Character.toString(spaces[r][c]));
+            pieceTypesString = pieceTypesString.concat(" ");
+          }
+        }
+      }
+      
+      pieceLocationString = pieceLocationString.trim();
+      pieceTypesString = pieceTypesString.trim();
+      
+      String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
+      
+      for (int i = 0; i < pieceLocationArray.length; i++)
+      {
+        try
+        {
+          if (spaces[startLetter + 2][startNumber + 2] == ' ')
+          {
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+            {
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter + 2));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber + 2));
+              possibleHMoves = possibleHMoves.concat(" ");
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          
+        }
+        
+        try
+        {
+          if (spaces[startLetter + 2][startNumber - 2] == ' ')
+          {
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+            {
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter + 2));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber - 2));
+              possibleHMoves = possibleHMoves.concat(" ");
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          
+        }
+        
+        try
+        {
+          if (spaces[startLetter - 2][startNumber - 2] == ' ')
+          {
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
+            {
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter - 2));
+              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber - 2));
+              possibleHMoves = possibleHMoves.concat(" ");
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          
+        }
+        
+      }
+      
+      try
+      {
+        if (spaces[startLetter - 2][startNumber + 2] == ' ')
+        {
+          if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+          {
+            possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
+            possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
+            possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter - 2));
+            possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber + 2));
+            possibleHMoves = possibleHMoves.concat(" ");
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        
+      }
+      
+      possibleHMoves = possibleHMoves.trim();
+      
+      if (possibleHMoves.length() > 3)
+      {
+        hopMoveFound = true;
+        String[] possibleHMovesArray = possibleHMoves.split("\\s+");
+        Random randGen = new Random();
+        
+        aiChoice = possibleHMovesArray[randGen.nextInt(possibleHMovesArray.length - 1)];
+        
+        aiGetPositions(aiChoice);
+        checkValidMove();
+        checkKing();
+        printBoard();
+      }
+      else
+      {
+        hopMoveFound = false;
+      }
+
+    }
+    
+    public static void checkersAi()
+    {
+            
+      System.out.println("\nAI is thinking...\n");f1
+      checkValidHops();
+      
+      if (hopMoveFound == false)
+      {
+        validMovePlaces();
+      }
+    }
+    
+    
+    public static void aiGetPositions(String i) // method that finds the start/end position they picked
+    {
+        try
+        {
+          
+          while (i.length() > 3)
+          {
+            startLetter =  Character.getNumericValue(i.charAt(0));
+            startNumber =  Character.getNumericValue(i.charAt(1));
+            endLetter =  Character.getNumericValue(i.charAt(2));
+            endNumber =  Character.getNumericValue(i.charAt(3));
+            checkMovement();
+            i = i.substring(2);
+          }
+          
+        }
+        catch (Exception e)
+        {
+            System.out.println("Invalid Move Sequence");
+        }
+    }
+    
     public static void getPositions(String i) // method that finds the start/end position they picked
     {
         try
@@ -177,22 +601,6 @@ class Checkers
             else
             {
                 System.out.println("Invalid Move Sequence");
-            }
-            if (validMove == true)
-            {
-                validMove = false;
-                if (playerNum == 1)
-                {
-                    playerNum = 2;
-                }
-                else
-                {
-                    playerNum = 1;
-                }
-            }
-            else
-            {
-                System.out.println("Invalid Move");
             }
         }
         catch (Exception e)
@@ -265,8 +673,6 @@ class Checkers
                 checkKingTwo();
             }
         }
-
-
     }
 
     public static void checkNormalOne() // checking player one's regular piece
@@ -453,11 +859,23 @@ class Checkers
 
         if (pieceCount[0] == 0)
         {
-            // player 2 wins ! :D
+          // player 2 wins ! :D
+          if (aiEnable == true)
+          {
+            gameEnd = true;
+            System.out.println("The AI Wins!");
+          }
+          else
+          {
+            gameEnd = true;
+            System.out.println("Player 2 Wins!\n");
+          }
         }
         else if (pieceCount[1] == 0)
         {
-            // player 1 wins ! :D
+          // player 1 wins ! :D
+          gameEnd = true;
+          System.out.println("Player 1 Wins!");
         }
         else
         {
