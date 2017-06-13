@@ -23,8 +23,7 @@ class Checkers
     public static boolean aiEnable = false;
     public static String pieceLocationString = "";
     public static String pieceTypesString = "";
-    public static String possibleMoves = ""; 
-    public static String possibleHMoves = ""; 
+    public static String possibleMoves = "";
     public static String aiChoice = "";
     public static boolean hopMoveFound = false;
     
@@ -63,6 +62,8 @@ class Checkers
             printBoard();
             while (gameEnd == false)
             { 
+              if (playerNum == 1)
+              {
               System.out.println("Your turn");
               moveInput = In.getString();
               moveInput = moveInput.replaceAll("\\s+","");
@@ -70,6 +71,7 @@ class Checkers
               checkValidMove();
               checkKing();
               printBoard();
+              }
               if (playerNum == 2)
               {
                 checkersAi();
@@ -87,7 +89,6 @@ class Checkers
           else
           {
             System.out.println("Invalid Input\n");
-            
           }
         }
         catch (Exception e)
@@ -397,6 +398,8 @@ class Checkers
         }
       }
       
+      if (possibleMoves.length() > 6)
+      {
       possibleMoves = possibleMoves.trim();
       String[] possibleMovesArray = possibleMoves.split("\\s+");
       
@@ -416,13 +419,28 @@ class Checkers
       checkValidMove();
       checkKing();
       printBoard();
+      }
+      else if (possibleMoves.length() == 4)
+      {
+        aiChoice = possibleMoves;
+        aiGetPositions(aiChoice);
+        checkValidMove();
+        checkKing();
+        printBoard();
+      }
+      else
+      {
+        // forfeit? 
+      }
+      
+      
     }
     
     public static void checkValidHops()
     {
       pieceLocationString = "";
       pieceTypesString = "";
-      possibleHMoves = ""; 
+      possibleMoves = ""; 
       
       for (int r = 0; r < 8; r++) // for loop for rows
       {
@@ -447,17 +465,20 @@ class Checkers
       
       for (int i = 0; i < pieceLocationArray.length; i++)
       {
+        startLetter = rowLegend.indexOf(pieceLocationArray[i].substring(0,1));
+        startNumber = columnLegend.indexOf(pieceLocationArray[i].substring(1,2));
+      
         try
         {
           if (spaces[startLetter + 2][startNumber + 2] == ' ')
           {
             if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
             {
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter + 2));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber + 2));
-              possibleHMoves = possibleHMoves.concat(" ");
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+              possibleMoves = possibleMoves.concat(" ");
             }
           }
         }
@@ -472,11 +493,11 @@ class Checkers
           {
             if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
             {
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter + 2));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber - 2));
-              possibleHMoves = possibleHMoves.concat(" ");
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+              possibleMoves = possibleMoves.concat(" ");
             }
           }
         }
@@ -491,11 +512,11 @@ class Checkers
           {
             if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
             {
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter - 2));
-              possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber - 2));
-              possibleHMoves = possibleHMoves.concat(" ");
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+              possibleMoves = possibleMoves.concat(" ");
             }
           }
         }
@@ -512,11 +533,11 @@ class Checkers
         {
           if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
           {
-            possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter));
-            possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber));
-            possibleHMoves = possibleHMoves.concat(Integer.toString(startLetter - 2));
-            possibleHMoves = possibleHMoves.concat(Integer.toString(startNumber + 2));
-            possibleHMoves = possibleHMoves.concat(" ");
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
+            possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+            possibleMoves = possibleMoves.concat(" ");
           }
         }
       }
@@ -525,15 +546,25 @@ class Checkers
         
       }
       
-      possibleHMoves = possibleHMoves.trim();
+      possibleMoves = possibleMoves.trim();
       
-      if (possibleHMoves.length() > 3)
+      if (possibleMoves.length() > 6)
       {
         hopMoveFound = true;
-        String[] possibleHMovesArray = possibleHMoves.split("\\s+");
+        String[] possibleMovesArray = possibleMoves.split("\\s+");
         Random randGen = new Random();
         
-        aiChoice = possibleHMovesArray[randGen.nextInt(possibleHMovesArray.length - 1)];
+        
+        aiChoice = possibleMovesArray[randGen.nextInt(possibleMovesArray.length - 1)];
+        
+        aiGetPositions(aiChoice);
+        checkValidMove();
+        checkKing();
+        printBoard();
+      }
+      else if (possibleMoves.length() == 4)
+      {
+        aiChoice = possibleMoves;
         
         aiGetPositions(aiChoice);
         checkValidMove();
@@ -550,13 +581,13 @@ class Checkers
     public static void checkersAi()
     {
             
-      System.out.println("\nAI is thinking...\n");f1
+      System.out.println("\nAI is thinking...\n");
       checkValidHops();
-      
       if (hopMoveFound == false)
       {
         validMovePlaces();
       }
+      
     }
     
     
