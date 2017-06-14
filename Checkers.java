@@ -47,15 +47,52 @@ class Checkers
             System.out.println("Player " + playerNum + "'s turn");
             moveInput = In.getString();
             moveInput = moveInput.replaceAll("\\s+","");
-            sequenceCheck(moveInput);
-            checkValidMove();
-            checkKing();
-            printBoard();
+            if (moveInput.equals("forfeit"))
+            {
+              if (playerNum == 1)
+              {
+                for (int r = 0; r < 8; r++) // for loop for rows
+                {
+                  for (int c = 0; c < 8; c++) // for loop for columns
+                  {
+                    if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+                    {
+                      spaces[r][c] = 'f';
+                    }
+                  }
+                }
+                System.out.println("Player 1 Forfeits.");
+                checkIfWinner();
+              }
+              else
+              {
+                for (int r = 0; r < 8; r++) // for loop for rows
+                {
+                  for (int c = 0; c < 8; c++) // for loop for columns
+                  {
+                    if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+                    {
+                      spaces[r][c] = 'f';
+                    }
+                  }
+                } 
+                System.out.println("Player 2 Forfeits.");
+                checkIfWinner();
+              }
+            }
+              
+            
+            else
+            {
+              sequenceCheck(moveInput);
+              checkValidMove();
+              checkKing();
+              printBoard();
+            }
           }
         }
         else if (menuChoice == 2)
         {
-          System.out.println("Sorry, Currently in Development.\n");
           aiEnable = true;
           gameEnd = false;
           setupBoard();
@@ -114,7 +151,8 @@ class Checkers
     System.out.println("you want to go (ex: e2) so the full input would be \"f1e2\".");
     System.out.println("To hop, you have to input the place of where you want to hop after.");
     System.out.println("To multi-hop you have to input each location of where you hop in order.");
-    System.out.println("For example \"f1e2\" \n\n");
+    System.out.println("For example \"f1d3b1\"");
+    System.out.println("If you can no longer move, you have lost and \n you must type in \"Forfeit\" to end the game.\n\n");
   }
   
   public static void rules()
@@ -1164,5 +1202,6 @@ class Checkers
     {
       
     }
+    
   }
 }
