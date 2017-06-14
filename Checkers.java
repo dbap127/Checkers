@@ -1,33 +1,45 @@
-/**
- * Created by Moocow on 6/6/2017.
+/*
+ * Denzel Baptiste
+ * ICS3U
+ * June 14th, 2017
+ * 
+ * Checkers Game For Summative
+ * 
+ * 
  */
+
+
 import java.util.Random;
 
 class Checkers
 {
+  
+  // spaces[startLetter][startNumber] and spaces[endLetter][endNumber] mean the location of each input like spaces[row][column] 
+  
+  
   public static char[][] spaces = new char[8][8]; // 2d array for holding where the game pieces are
   public static String rowLegend = "abcdefgh"; // row number definitions
   public static String columnLegend = "12345678"; // column letter definitions
-  public static String moveInput = "";
-  public static int playerNum = 1;
-  public static int startLetter;
-  public static int startNumber;
-  public static int endLetter;
-  public static int endNumber;
-  public static boolean validMove = false;
-  public static int[] pieceCount = new int[2];
-  public static String moveSeq = "";
-  public static String origI;
-  public static boolean gameEnd = true;
-  public static int menuChoice;
-  public static boolean aiEnable = false;
-  public static String pieceLocationString = "";
-  public static String pieceTypesString = "";
-  public static String possibleMoves = "";
-  public static String aiChoice = "";
+  public static String moveInput = ""; // gets player(s) move input
+  public static int playerNum = 1; // player's turn
+  public static int startLetter; // start row position for piece movement
+  public static int startNumber; // start column position for piece movement
+  public static int endLetter; // end row position for piece movement
+  public static int endNumber; // end column position for piece movement
+  public static boolean validMove = false; // checking for valid moves
+  public static int[] pieceCount = new int[2]; // holds amount of pieces of each player
+  public static String moveSeq = ""; // detecting what "multi" moves are happening
+  public static String origI; // grabs original input
+  public static boolean gameEnd = true; // checking if the game ended
+  public static int menuChoice; // handles menu choices
+  public static boolean aiEnable = false; // detects if its pvp or pvai
+  public static String pieceLocationString = ""; // handles ai finding location of pieces
+  public static String pieceTypesString = ""; // handles piece types of ai
+  public static String possibleMoves = ""; // handles possible moves an ai can move too
+  public static String aiChoice = ""; // where the ai choice is inputted
   public static boolean hopMoveFound = false;
   
-  public static void main(String[] args)
+  public static void main(String[] args) // main method handles other methods (menu choices, rules, gameplay, forfeiting, etc)
   {
     while (!(true == false))
     {
@@ -157,7 +169,8 @@ class Checkers
     }
   }
   
-  public static void menuChoices()
+  
+  public static void menuChoices() // method that displays the menu choices
   {
     System.out.println("Welcome to Checkers.");
     System.out.println("Press 1 for Player vs Player");
@@ -166,7 +179,7 @@ class Checkers
     System.out.println("Press 4 for Learning How To Move (Highly Recommended)");
   }
   
-  public static void howToMove()
+  public static void howToMove() // method that displays how to move a piece
   {
     System.out.println("In this version, you have to first type in the location of the");
     System.out.println("piece you want to move (ex: f1), then input the place of where");
@@ -177,7 +190,7 @@ class Checkers
     System.out.println("If you can no longer move, you have lost and \n you must type in \"Forfeit\" to end the game.\n\n");
   }
   
-  public static void rules()
+  public static void rules() // method that displays the rules of checkers
   {
     System.out.println("Welcome to Checkers");
     System.out.println("This is how to play:");
@@ -274,21 +287,21 @@ class Checkers
   
   public static void printBoard() // prints the board with pieces placed
   {
-    System.out.print("   ");
+    System.out.print("   "); 
     for (int c = 0; c < 8; c++)
     {
-      System.out.print(columnLegend.charAt(c) + "  ");
+      System.out.print(columnLegend.charAt(c) + "  "); // prints number legend at top
     }
     
     System.out.println("");
     
-    for (int r = 0; r < 8; r++)
+    for (int r = 0; r < 8; r++) 
     {
-      System.out.print(rowLegend.charAt(r) + " ");
+      System.out.print(rowLegend.charAt(r) + " "); // prints letter legend at top
       
       for (int c = 0; c < 8; c++)
       {
-        System.out.print("[" + spaces[r][c] + "]");
+        System.out.print("[" + spaces[r][c] + "]"); // prints piece with square brackets around
       }
       
       System.out.println("");
@@ -297,11 +310,11 @@ class Checkers
   
   public static void movePiece() // method that changes the positions of the pieces
   {
-    spaces[endLetter][endNumber] = spaces[startLetter][startNumber];
+    spaces[endLetter][endNumber] = spaces[startLetter][startNumber]; 
     spaces[startLetter][startNumber] = ' ';
   }
   
-  public static void checkValidMove()
+  public static void checkValidMove() // checks if the move was valid then change the player number
   {
     if (validMove == true)
     {
@@ -321,22 +334,22 @@ class Checkers
   
   public static void validMovePlaces()
   {
-    pieceLocationString = "";
-    pieceTypesString = "";
-    possibleMoves = ""; 
+    pieceLocationString = ""; // resets variable
+    pieceTypesString = ""; // resets variable
+    possibleMoves = ""; // resets variable
     
     for (int r = 0; r < 8; r++) // for loop for rows
     {
       for (int c = 0; c < 8; c++) // for loop for columns
       {
-        if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+        if (spaces[r][c] == '0' || spaces[r][c] == 'K') // checks board which pieces are owned by ai
         {
-          pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r)));
-          pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c)));
-          pieceLocationString = pieceLocationString.concat(" ");
+          pieceLocationString = pieceLocationString.concat(Character.toString(rowLegend.charAt(r))); // adds row location of pieces
+          pieceLocationString = pieceLocationString.concat(Character.toString(columnLegend.charAt(c))); // adds column locations of pieces
+          pieceLocationString = pieceLocationString.concat(" "); // adds space to seperate locations 
           
-          pieceTypesString = pieceTypesString.concat(Character.toString(spaces[r][c]));
-          pieceTypesString = pieceTypesString.concat(" ");
+          pieceTypesString = pieceTypesString.concat(Character.toString(spaces[r][c])); // gets the piece type 
+          pieceTypesString = pieceTypesString.concat(" "); // adds space to seperate piece types
         }
       }
     }
@@ -849,28 +862,28 @@ class Checkers
   
   
   
-  public static void checkersAi()
+  public static void checkersAi() // method that calls other methods to handle the ai movement
   {
     
     System.out.println("\nAI is thinking...\n");
-    checkValidHops();
-    if (hopMoveFound == false)
+    checkValidHops(); // checks for valid hops 
+    if (hopMoveFound == false) // if no valid hops
     {
-      validMovePlaces();
+      validMovePlaces(); // check for valid places to move
     }
     printBoard();
     
   }
   
   
-  public static void aiGetPositions(String i) // method that finds the start/end position they picked
+  public static void aiGetPositions(String i) // method that finds the start/end position the ai picked
   {
     try
     {
       
       while (i.length() > 3)
       {
-        startLetter =  Character.getNumericValue(i.charAt(0));
+        startLetter =  Character.getNumericValue(i.charAt(0)); // Character.getNumericaValue convert a char to integer
         startNumber =  Character.getNumericValue(i.charAt(1));
         endLetter =  Character.getNumericValue(i.charAt(2));
         endNumber =  Character.getNumericValue(i.charAt(3));
@@ -889,16 +902,16 @@ class Checkers
   {
     try
     {
-      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0)
+      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0) // detects if input only contains a to h and 0 to 8
       {
-        while (i.length() > 3)
+        while (i.length() > 3) // for multi hops, keep checking inputs
         {
-          startLetter = rowLegend.indexOf(i.charAt(0));
-          startNumber = columnLegend.indexOf(i.charAt(1));
-          endLetter = rowLegend.indexOf(i.charAt(2));
-          endNumber = columnLegend.indexOf(i.charAt(3));
+          startLetter = rowLegend.indexOf(i.charAt(0)); // converts letter to proper move input syntax
+          startNumber = columnLegend.indexOf(i.charAt(1)); // converts number to proper move input syntax
+          endLetter = rowLegend.indexOf(i.charAt(2)); // converts letter to proper move input syntax
+          endNumber = columnLegend.indexOf(i.charAt(3)); // converts letter to proper move input syntax
           checkMovement();
-          i = i.substring(2);
+          i = i.substring(2); 
         }
       }
       else
@@ -912,35 +925,35 @@ class Checkers
     }
   }
   
-  public static void sequenceCheck(String i)
+  public static void sequenceCheck(String i) // method that detects if multi movements or single movements are valid
   {
-    origI = i;
+    origI = i; // hold original input before i gets modified
     try
     {
       moveSeq = "";
-      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0)
+      if (i.matches("^[a-hA-H0-8]+$") && (i.length() % 2) == 0)  // detects if input only contains a to h and 0 to 8
       {
-        while (i.length() > 3)
+        while (i.length() > 3) // for multi hops, keep checking inputs
         {
-          startLetter = rowLegend.indexOf(i.charAt(0));
-          startNumber = columnLegend.indexOf(i.charAt(1));
-          endLetter = rowLegend.indexOf(i.charAt(2));
-          endNumber = columnLegend.indexOf(i.charAt(3));
-          if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ')
+          startLetter = rowLegend.indexOf(i.charAt(0)); // converts letter to proper move input syntax
+          startNumber = columnLegend.indexOf(i.charAt(1)); // converts number to proper move input syntax
+          endLetter = rowLegend.indexOf(i.charAt(2)); // converts letter to proper move input syntax
+          endNumber = columnLegend.indexOf(i.charAt(3)); // converts letter to proper move input syntax
+          if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ') // checking if its a single move
           {
             moveSeq = moveSeq.concat("1");
           }
-          else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+          else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
           {
             moveSeq = moveSeq.concat("2");
           }
           else
           {
-            moveSeq = moveSeq.concat("3");
+            moveSeq = moveSeq.concat("3"); // if its an invalid move
           }
           i = i.substring(2);
         }
-        if (moveSeq.matches("^[1]{1}|[2]+[1]{0}$"))
+        if (moveSeq.matches("^[1]{1}|[2]+[1]{0}$")) // checking if its valid, if its 1 "1" or only multiple "2"
         {
           getPositions(origI);
         }
@@ -956,7 +969,7 @@ class Checkers
     }
   }
   
-  public static void checkMovement()
+  public static void checkMovement() // checks which player and whiche piece is being moved
   {
     if (playerNum == 1)
     {
@@ -984,17 +997,17 @@ class Checkers
   
   public static void checkNormalOne() // checking player one's regular piece
   {
-    if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+    if (endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ') // if placement is valid 
     {
       validMove = true;
       movePiece();
     }
-    else if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+    else if (endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ') // if placement is valid 
     {
       validMove = true;
       movePiece();
     }
-    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // check if its a valid hop 
     {
       checkBunnyHop();
     }
@@ -1006,17 +1019,17 @@ class Checkers
   
   public static void checkNormalTwo() // checking player two's regular piece
   {
-    if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ')
+    if (endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ') // if placement is valid  
     {
       validMove = true;
       movePiece();
     }
-    else if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ')
+    else if (endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ') // if placement is valid  
     {
       validMove = true;
       movePiece();
     }
-    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // check if its a valid hop  
     {
       checkBunnyHop();
     }
@@ -1028,12 +1041,12 @@ class Checkers
   
   public static void checkKingOne() // checking player one's king piece
   {
-    if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ')
+    if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ') // if placement is valid  
     {
       validMove = true;
       movePiece();
     }
-    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // check if its a valid hop  
     {
       checkBunnyHop();
     }
@@ -1045,12 +1058,12 @@ class Checkers
   
   public static void checkKingTwo() // checking player two's regular piece
   {
-    if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ')
+    if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ') // if placement is valid 
     {
       validMove = true;
       movePiece();
     }
-    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ')
+    else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // check if its a valid hop  
     {
       checkBunnyHop();
     }
@@ -1060,11 +1073,11 @@ class Checkers
     }
   }
   
-  public static void checkBunnyHop()
+  public static void checkBunnyHop() // method that checks if the hop movement is valid
   {
     if (endLetter == (startLetter - 2) && endNumber == (startNumber + 2))
     {
-      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter - 1][startNumber + 1]) == true)
+      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter - 1][startNumber + 1]) == true) // if right pieces are hop/being hopped
       {
         validMove = true;
         spaces[startLetter - 1][startNumber + 1] = ' ';
@@ -1077,7 +1090,7 @@ class Checkers
     }
     else if (endLetter == (startLetter - 2) && endNumber == (startNumber - 2))
     {
-      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter - 1][startNumber - 1]) == true)
+      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter - 1][startNumber - 1]) == true) // if right pieces are hop/being hopped 
       {
         validMove = true;
         spaces[startLetter - 1][startNumber - 1] = ' ';
@@ -1090,7 +1103,7 @@ class Checkers
     }
     else if (endLetter == (startLetter + 2) && endNumber == (startNumber - 2))
     {
-      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter + 1][startNumber - 1]) == true)
+      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter + 1][startNumber - 1]) == true) // if right pieces are hop/being hopped 
       {
         validMove = true;
         spaces[startLetter + 1][startNumber - 1] = ' ';
@@ -1103,7 +1116,7 @@ class Checkers
     }
     else if (endLetter == (startLetter + 2) && endNumber == (startNumber + 2))
     {
-      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter + 1][startNumber + 1]) == true)
+      if (hoppingCheck(spaces[startLetter][startNumber],spaces[startLetter + 1][startNumber + 1]) == true) // if right pieces are hop/being hopped
       {
         validMove = true;
         spaces[startLetter + 1][startNumber + 1] = ' ';
@@ -1120,7 +1133,7 @@ class Checkers
     } 
   }
   
-  public static boolean hoppingCheck(char hopper, char hopped)
+  public static boolean hoppingCheck(char hopper, char hopped) // method that checks if the piece is hopping the correct piece(s)
   {
     if (hopper == 'o' && hopped == '0')
     {
@@ -1180,7 +1193,7 @@ class Checkers
     }
   }
   
-  public static void checkIfWinner()
+  public static void checkIfWinner() // counts the pieces of each players and see if one has none 
   {
     pieceCount[0] = 0;
     pieceCount[1] = 0;
@@ -1189,21 +1202,21 @@ class Checkers
     {
       for (int c = 0; c < 8; c++) // for loop for columns
       {
-        if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+        if (spaces[r][c] == 'o' || spaces[r][c] == 'k') // adds player 1 pieces to count
         {
           ++pieceCount[0];
         }
-        else if (spaces[r][c] == '0' || spaces[r][c] == 'K')
+        else if (spaces[r][c] == '0' || spaces[r][c] == 'K') // adds player 2 pieces to count
         {
           ++pieceCount[1];
         }
       }
     }
     
-    if (pieceCount[0] == 0)
+    if (pieceCount[0] == 0) // if player 1 has no pieces 
     {
       // player 2 wins ! :D
-      if (aiEnable == true)
+      if (aiEnable == true) // if the ai was enabled
       {
         gameEnd = true;
         System.out.println("The AI Wins!");
@@ -1214,7 +1227,7 @@ class Checkers
         System.out.println("Player 2 Wins!\n");
       }
     }
-    else if (pieceCount[1] == 0)
+    else if (pieceCount[1] == 0) // if player 2 has no pieces 
     {
       // player 1 wins ! :D
       gameEnd = true;
