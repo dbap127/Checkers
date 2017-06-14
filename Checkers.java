@@ -92,7 +92,7 @@ class Checkers
                 checkIfWinner();
               }
             }
-              
+            
             
             else
             {
@@ -357,7 +357,7 @@ class Checkers
     pieceLocationString = pieceLocationString.trim();
     pieceTypesString = pieceTypesString.trim();
     
-    if (pieceLocationString.length() > 6)
+    if (pieceLocationString.contains(" "))
     {
       String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
       String[] pieceTypesArray = pieceTypesString.split("\\s+"); 
@@ -584,9 +584,10 @@ class Checkers
       
     }
     
-    if (possibleMoves.length() > 6)
+    possibleMoves = possibleMoves.trim();
+    
+    if (possibleMoves.contains(" "))
     {
-      possibleMoves = possibleMoves.trim();
       String[] possibleMovesArray = possibleMoves.split("\\s+");
       
       
@@ -605,7 +606,7 @@ class Checkers
       checkValidMove();
       checkKing();
     }
-    else if (possibleMoves.length() > 3 && possibleMoves.length() < 5)
+    else if (possibleMoves.length() > 3)
     {
       aiChoice = possibleMoves;
       // System.out.println(aiChoice);
@@ -660,12 +661,146 @@ class Checkers
     if (pieceLocationString.contains(" "))
     {
       String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
+      String[] pieceTypesArray = pieceTypesString.split("\\s+");
       
       for (int i = 0; i < pieceLocationArray.length; i++)
       {
         startLetter = rowLegend.indexOf(pieceLocationArray[i].substring(0,1));
         startNumber = columnLegend.indexOf(pieceLocationArray[i].substring(1,2));
         
+        if (pieceTypesArray[i].equals("0"))
+        {
+          try
+          {
+            if (spaces[startLetter + 2][startNumber + 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter + 2][startNumber - 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+        }
+        else
+        {
+          try
+          {
+            if (spaces[startLetter + 2][startNumber + 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter + 2][startNumber - 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          try
+          {
+            if (spaces[startLetter - 2][startNumber - 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+          
+          
+          
+          try
+          {
+            if (spaces[startLetter - 2][startNumber + 2] == ' ')
+            {
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+              {
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
+                possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+                possibleMoves = possibleMoves.concat(" ");
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            
+          }
+        }
+      }
+    }
+    else
+    {
+      String[] pieceLocationArray = {pieceLocationString, " "}; 
+      String[] pieceTypesArray = {pieceTypesString, " "};
+      
+      startLetter = rowLegend.indexOf(pieceLocationArray[0].substring(0,1));
+      startNumber = columnLegend.indexOf(pieceLocationArray[0].substring(1,2));
+      
+      if (pieceTypesArray[0].equals("0"))
+      {
         try
         {
           if (spaces[startLetter + 2][startNumber + 2] == ' ')
@@ -680,7 +815,7 @@ class Checkers
             }
           }
         }
-        catch (Exception e)
+        catch (Exception e1)
         {
           
         }
@@ -699,7 +834,49 @@ class Checkers
             }
           }
         }
-        catch (Exception e)
+        catch (Exception e1)
+        {
+          
+        }
+        
+        
+      }
+      else if (pieceTypesArray[0].equals("K"))
+      {
+        try
+        {
+          if (spaces[startLetter + 2][startNumber + 2] == ' ')
+          {
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+        }
+        catch (Exception e1)
+        {
+          
+        }
+        
+        try
+        {
+          if (spaces[startLetter + 2][startNumber - 2] == ' ')
+          {
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+              possibleMoves = possibleMoves.concat(" ");
+            }
+          }
+        }
+        catch (Exception e1)
         {
           
         }
@@ -718,117 +895,31 @@ class Checkers
             }
           }
         }
-        catch (Exception e)
+        catch (Exception e1)
         {
           
         }
-        
-      }
-      
-      try
-      {
-        if (spaces[startLetter - 2][startNumber + 2] == ' ')
+        try
         {
-          if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+          if (spaces[startLetter - 2][startNumber + 2] == ' ')
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
-            possibleMoves = possibleMoves.concat(" ");
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+            {
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
+              possibleMoves = possibleMoves.concat(" ");
+            }
           }
         }
-      }
-      catch (Exception e)
-      {
-        
-      }
-    }
-    else
-    {
-      String[] pieceLocationArray = {pieceLocationString, " "}; 
-      String[] pieceTypesArray = {pieceTypesString, " "};
-      
-      startLetter = rowLegend.indexOf(pieceLocationArray[0].substring(0,1));
-      startNumber = columnLegend.indexOf(pieceLocationArray[0].substring(1,2));
-      
-      try
-      {
-        if (spaces[startLetter + 2][startNumber + 2] == ' ')
+        catch (Exception e1)
         {
-          if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
-          {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
-            possibleMoves = possibleMoves.concat(" ");
-          }
-        }
-      }
-      catch (Exception e1)
-      {
-        
-      }
-      
-      try
-      {
-        if (spaces[startLetter + 2][startNumber - 2] == ' ')
-        {
-          if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
-          {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
-            possibleMoves = possibleMoves.concat(" ");
-          }
-        }
-      }
-      catch (Exception e1)
-      {
-        
-      }
-      
-      try
-      {
-        if (spaces[startLetter - 2][startNumber - 2] == ' ')
-        {
-          if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
-          {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
-            possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
-            possibleMoves = possibleMoves.concat(" ");
-          }
-        }
-      }
-      catch (Exception e1)
-      {
-        
-      }
-      
-    }
-    
-    try
-    {
-      if (spaces[startLetter - 2][startNumber + 2] == ' ')
-      {
-        if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
-        {
-          possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-          possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
-          possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
-          possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
-          possibleMoves = possibleMoves.concat(" ");
+          
         }
       }
     }
-    catch (Exception e1)
-    {
-      
-    }
+
     
     possibleMoves = possibleMoves.trim();
     
