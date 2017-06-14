@@ -59,7 +59,7 @@ class Checkers
             System.out.println("Player " + playerNum + "'s turn");
             moveInput = In.getString();
             moveInput = moveInput.replaceAll("\\s+","");
-            if (moveInput.equals("forfeit"))
+            if (moveInput.equals("forfeit")) // if they can't move anywhere
             {
               if (playerNum == 1)
               {
@@ -69,11 +69,11 @@ class Checkers
                   {
                     if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
                     {
-                      spaces[r][c] = 'f';
+                      spaces[r][c] = 'f'; // replaces pieces with f declaring forfeit
                     }
                   }
                 }
-                System.out.println("Player 1 Forfeits.");
+                System.out.println("Player 1 Forfeits."); 
                 checkIfWinner();
               }
               else
@@ -82,9 +82,9 @@ class Checkers
                 {
                   for (int c = 0; c < 8; c++) // for loop for columns
                   {
-                    if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+                    if (spaces[r][c] == '0' || spaces[r][c] == 'K')
                     {
-                      spaces[r][c] = 'f';
+                      spaces[r][c] = 'F'; // replaces pieces with f declaring forfeit
                     }
                   }
                 } 
@@ -96,7 +96,7 @@ class Checkers
             
             else
             {
-              sequenceCheck(moveInput);
+              sequenceCheck(moveInput); // check movement
               checkValidMove();
               checkKing();
               printBoard();
@@ -116,7 +116,7 @@ class Checkers
               System.out.println("Your turn");
               moveInput = In.getString();
               moveInput = moveInput.replaceAll("\\s+","");
-              if (moveInput.equals("forfeit"))
+              if (moveInput.equals("forfeit")) // if they can't move anywhere
               {
                 if (playerNum == 1)
                 {
@@ -136,7 +136,7 @@ class Checkers
               }
               else
               {
-                sequenceCheck(moveInput);
+                sequenceCheck(moveInput); // check movement
                 checkValidMove();
                 checkKing();
                 printBoard();
@@ -354,7 +354,7 @@ class Checkers
       }
     }
     
-    pieceLocationString = pieceLocationString.trim();
+    pieceLocationString = pieceLocationString.trim(); 
     pieceTypesString = pieceTypesString.trim();
     
     if (pieceLocationString.contains(" "))
@@ -371,9 +371,9 @@ class Checkers
         {
           try
           {
-            if (spaces[startLetter + 1][startNumber + 1] == ' ')
+            if (spaces[startLetter + 1][startNumber + 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -387,10 +387,10 @@ class Checkers
           
           try
           {
-            if (spaces[startLetter + 1][startNumber - 1] == ' ')
+            if (spaces[startLetter + 1][startNumber - 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
-              possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
+              possibleMoves = possibleMoves.concat(Integer.toString(startNumber)); 
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
               possibleMoves = possibleMoves.concat(" ");
@@ -407,9 +407,9 @@ class Checkers
         {
           try
           {
-            if (spaces[startLetter + 1][startNumber + 1] == ' ')
+            if (spaces[startLetter + 1][startNumber + 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -423,9 +423,9 @@ class Checkers
           
           try
           {
-            if (spaces[startLetter + 1][startNumber - 1] == ' ')
+            if (spaces[startLetter + 1][startNumber - 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
@@ -439,9 +439,9 @@ class Checkers
           
           try
           {
-            if (spaces[startLetter - 1][startNumber - 1] == ' ')
+            if (spaces[startLetter - 1][startNumber - 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
@@ -455,9 +455,9 @@ class Checkers
           
           try
           {
-            if (spaces[startLetter - 1][startNumber + 1] == ' ')
+            if (spaces[startLetter - 1][startNumber + 1] == ' ') // if its a valid move
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -483,9 +483,9 @@ class Checkers
       {
         try
         {
-          if (spaces[startLetter + 1][startNumber + 1] == ' ')
+          if (spaces[startLetter + 1][startNumber + 1] == ' ') // if its a valid move
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -499,9 +499,9 @@ class Checkers
         
         try
         {
-          if (spaces[startLetter + 1][startNumber - 1] == ' ')
+          if (spaces[startLetter + 1][startNumber - 1] == ' ') // if its a valid move
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
@@ -519,9 +519,9 @@ class Checkers
       {
         try
         {
-          if (spaces[startLetter + 1][startNumber + 1] == ' ')
+          if (spaces[startLetter + 1][startNumber + 1] == ' ') // if its a valid move
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -535,9 +535,9 @@ class Checkers
         
         try
         {
-          if (spaces[startLetter + 1][startNumber - 1] == ' ')
+          if (spaces[startLetter + 1][startNumber - 1] == ' ') // if its a valid move
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
@@ -551,9 +551,9 @@ class Checkers
         
         try
         {
-          if (spaces[startLetter - 1][startNumber - 1] == ' ')
+          if (spaces[startLetter - 1][startNumber - 1] == ' ') // if its a valid move 
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 1));
@@ -567,9 +567,9 @@ class Checkers
         
         try
         {
-          if (spaces[startLetter - 1][startNumber + 1] == ' ')
+          if (spaces[startLetter - 1][startNumber + 1] == ' ') // if its a valid move
           {
-            possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+            possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
             possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 1));
             possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 1));
@@ -635,9 +635,9 @@ class Checkers
   
   public static void checkValidHops()
   {
-    pieceLocationString = "";
-    pieceTypesString = "";
-    possibleMoves = ""; 
+    pieceLocationString = ""; // resets variable
+    pieceTypesString = ""; // resets variable
+    possibleMoves = ""; // resets variable
     
     for (int r = 0; r < 8; r++) // for loop for rows
     {
@@ -655,17 +655,17 @@ class Checkers
       }
     }
     
-    pieceLocationString = pieceLocationString.trim();
+    pieceLocationString = pieceLocationString.trim(); // removes spaces at end
     pieceTypesString = pieceTypesString.trim();
     
     if (pieceLocationString.contains(" "))
     {
-      String[] pieceLocationArray = pieceLocationString.split("\\s+"); 
-      String[] pieceTypesArray = pieceTypesString.split("\\s+");
+      String[] pieceLocationArray = pieceLocationString.split("\\s+"); // puts location of pieces in array
+      String[] pieceTypesArray = pieceTypesString.split("\\s+"); // puts types of pieces in array
       
       for (int i = 0; i < pieceLocationArray.length; i++)
       {
-        startLetter = rowLegend.indexOf(pieceLocationArray[i].substring(0,1));
+        startLetter = rowLegend.indexOf(pieceLocationArray[i].substring(0,1)); 
         startNumber = columnLegend.indexOf(pieceLocationArray[i].substring(1,2));
         
         if (pieceTypesArray[i].equals("0"))
@@ -674,9 +674,9 @@ class Checkers
           {
             if (spaces[startLetter + 2][startNumber + 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
@@ -693,9 +693,9 @@ class Checkers
           {
             if (spaces[startLetter + 2][startNumber - 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -715,9 +715,9 @@ class Checkers
           {
             if (spaces[startLetter + 2][startNumber + 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
@@ -734,9 +734,9 @@ class Checkers
           {
             if (spaces[startLetter + 2][startNumber - 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -753,9 +753,9 @@ class Checkers
           {
             if (spaces[startLetter - 2][startNumber - 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -774,9 +774,9 @@ class Checkers
           {
             if (spaces[startLetter - 2][startNumber + 2] == ' ')
             {
-              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+              if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true) // if its a valid hop
               {
-                possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+                possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
                 possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
                 possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
@@ -796,8 +796,8 @@ class Checkers
       String[] pieceLocationArray = {pieceLocationString, " "}; 
       String[] pieceTypesArray = {pieceTypesString, " "};
       
-      startLetter = rowLegend.indexOf(pieceLocationArray[0].substring(0,1));
-      startNumber = columnLegend.indexOf(pieceLocationArray[0].substring(1,2));
+      startLetter = rowLegend.indexOf(pieceLocationArray[0].substring(0,1)); // first letter from array position
+      startNumber = columnLegend.indexOf(pieceLocationArray[0].substring(1,2)); // first number from array position
       
       if (pieceTypesArray[0].equals("0"))
       {
@@ -805,9 +805,9 @@ class Checkers
         {
           if (spaces[startLetter + 2][startNumber + 2] == ' ')
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true) // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
@@ -824,9 +824,9 @@ class Checkers
         {
           if (spaces[startLetter + 2][startNumber - 2] == ' ')
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)  // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -847,9 +847,9 @@ class Checkers
         {
           if (spaces[startLetter + 2][startNumber + 2] == ' ')
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber + 1]) == true)  // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber + 2));
@@ -866,9 +866,9 @@ class Checkers
         {
           if (spaces[startLetter + 2][startNumber - 2] == ' ')
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter + 1][startNumber - 1]) == true)  // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter + 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -885,9 +885,9 @@ class Checkers
         {
           if (spaces[startLetter - 2][startNumber - 2] == ' ')
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber - 1]) == true)  // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -901,11 +901,11 @@ class Checkers
         }
         try
         {
-          if (spaces[startLetter - 2][startNumber + 2] == ' ')
+          if (spaces[startLetter - 2][startNumber + 2] == ' ') 
           {
-            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)
+            if (hoppingCheck(spaces[startLetter][startNumber], spaces[startLetter - 1][startNumber + 1]) == true)  // if its a valid hop
             {
-              possibleMoves = possibleMoves.concat(Integer.toString(startLetter));
+              possibleMoves = possibleMoves.concat(Integer.toString(startLetter)); // add to possible moves list
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber));
               possibleMoves = possibleMoves.concat(Integer.toString(startLetter - 2));
               possibleMoves = possibleMoves.concat(Integer.toString(startNumber - 2));
@@ -923,7 +923,7 @@ class Checkers
     
     possibleMoves = possibleMoves.trim();
     
-    if (possibleMoves.contains(" "))
+    if (possibleMoves.contains(" ")) // if more than 1 possible move essentially
     {
       hopMoveFound = true;
       String[] possibleMovesArray = possibleMoves.split("\\s+");
@@ -935,7 +935,7 @@ class Checkers
       checkValidMove();
       checkKing();
     }
-    else if (possibleMoves.length() > 3)
+    else if (possibleMoves.length() > 3) // if only one possible move
     {
       aiChoice = possibleMoves;
       
@@ -945,7 +945,7 @@ class Checkers
       checkValidMove();
       checkKing();
     }
-    else
+    else 
     {
       hopMoveFound = false;
     }
@@ -974,7 +974,7 @@ class Checkers
       
       while (i.length() > 3)
       {
-        startLetter =  Character.getNumericValue(i.charAt(0)); // Character.getNumericaValue convert a char to integer
+        startLetter =  Character.getNumericValue(i.charAt(0)); // Character.getNumericaValue converts a char to integer
         startNumber =  Character.getNumericValue(i.charAt(1));
         endLetter =  Character.getNumericValue(i.charAt(2));
         endNumber =  Character.getNumericValue(i.charAt(3));
@@ -1116,22 +1116,22 @@ class Checkers
   {
     if (playerNum == 1)
     {
-      if (spaces[startLetter][startNumber] == 'o')
+      if (spaces[startLetter][startNumber] == 'o') // if its a player 1 piece 
       {
         checkNormalOne();
       }
-      else if (spaces[startLetter][startNumber] == 'k')
+      else if (spaces[startLetter][startNumber] == 'k') // if its a player 1 king piece 
       {
         checkKingOne();
       }
     }
     else
     {
-      if (spaces[startLetter][startNumber] == '0')
+      if (spaces[startLetter][startNumber] == '0') // if its a player 2 piece 
       {
         checkNormalTwo();
       }
-      else if (spaces[startLetter][startNumber] == 'K')
+      else if (spaces[startLetter][startNumber] == 'K') // if its a player 2 king piece 
       {
         checkKingTwo();
       }
