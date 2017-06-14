@@ -104,14 +104,36 @@ class Checkers
               System.out.println("Your turn");
               moveInput = In.getString();
               moveInput = moveInput.replaceAll("\\s+","");
-              sequenceCheck(moveInput);
-              checkValidMove();
-              checkKing();
-              printBoard();
-            }
-            if (playerNum == 2)
-            {
-              checkersAi();
+              if (moveInput.equals("forfeit"))
+              {
+                if (playerNum == 1)
+                {
+                  for (int r = 0; r < 8; r++) // for loop for rows
+                  {
+                    for (int c = 0; c < 8; c++) // for loop for columns
+                    {
+                      if (spaces[r][c] == 'o' || spaces[r][c] == 'k')
+                      {
+                        spaces[r][c] = 'f';
+                      }
+                    }
+                  }
+                  System.out.println("Player 1 Forfeits.");
+                  checkIfWinner();
+                }
+              }
+              else
+              {
+                sequenceCheck(moveInput);
+                checkValidMove();
+                checkKing();
+                printBoard();
+              }
+              
+              if (playerNum == 2)
+              {
+                checkersAi();
+              }
             }
           }
         }
