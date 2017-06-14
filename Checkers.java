@@ -1030,18 +1030,70 @@ class Checkers
           startNumber = columnLegend.indexOf(i.charAt(1)); // converts number to proper move input syntax
           endLetter = rowLegend.indexOf(i.charAt(2)); // converts letter to proper move input syntax
           endNumber = columnLegend.indexOf(i.charAt(3)); // converts letter to proper move input syntax
-          if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+
+          if (spaces[startLetter][startNumber] == 'o')
           {
-            moveSeq = moveSeq.concat("1");
+            if(endLetter == (startLetter - 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+            {
+              moveSeq = moveSeq.concat("1");
+            }
+            else if(endLetter == (startLetter - 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+            {
+              moveSeq = moveSeq.concat("1");
+            }
+            else if (endLetter == (startLetter - 2) && endNumber == (startNumber + 2) && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+            {
+              moveSeq = moveSeq.concat("2");
+            }
+            else if (endLetter == (startLetter - 2) && endNumber == (startNumber - 2) && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+            {
+              moveSeq = moveSeq.concat("2");
+            }
+            else
+            {
+              moveSeq = moveSeq.concat("3"); // if its an invalid move
+            }
           }
-          else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+          else if (spaces[startLetter][startNumber] == '0')
           {
-            moveSeq = moveSeq.concat("2");
+            if(endLetter == (startLetter + 1) && endNumber == (startNumber + 1) && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+            {
+              moveSeq = moveSeq.concat("1");
+            }
+            else if(endLetter == (startLetter + 1) && endNumber == (startNumber - 1) && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+            {
+              moveSeq = moveSeq.concat("1");
+            }
+            else if (endLetter == (startLetter + 2) && endNumber == (startNumber + 2) && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+            {
+              moveSeq = moveSeq.concat("2");
+            }
+            else if (endLetter == (startLetter + 2) && endNumber == (startNumber - 2) && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+            {
+              moveSeq = moveSeq.concat("2");
+            }
+            else
+            {
+              moveSeq = moveSeq.concat("3"); // if its an invalid move
+            }
           }
-          else
+          else if (spaces[startLetter][startNumber] == 'k' || spaces[startLetter][startNumber] == 'K')
           {
-            moveSeq = moveSeq.concat("3"); // if its an invalid move
+            if (Math.abs(startLetter - endLetter) == 1 && Math.abs(startNumber - endNumber) == 1 && spaces[endLetter][endNumber] == ' ') // checking if its a single move
+            {
+              moveSeq = moveSeq.concat("1");
+            }
+            else if (Math.abs(startLetter - endLetter) == 2 && Math.abs(startNumber - endNumber) == 2 && spaces[endLetter][endNumber] == ' ') // checking if its a hopping move
+            {
+              moveSeq = moveSeq.concat("2");
+            }
+            else
+            {
+              moveSeq = moveSeq.concat("3"); // if its an invalid move
+            }
           }
+          
+          
           i = i.substring(2);
         }
         if (moveSeq.matches("^[1]{1}|[2]+[1]{0}$")) // checking if its valid, if its 1 "1" or only multiple "2"
